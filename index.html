@@ -4,6 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
     <title>XI TJKT 1 | Profile</title>
+
+
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <!-- External CSS -->
@@ -16,6 +18,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&display=swap" rel="stylesheet">
   </head>
   <body>
+    <div id="welcomeScreen">
+      <div class="welcome-bg"></div>
+      <h1 class="welcome-text">Welcome to <span>XI TJKT 1</span></h1>
+    </div>
+
+
+    <canvas id="particleBackground"></canvas>
     <!-- Scroll Progress -->
     <div id="progress" aria-hidden="true"></div>
     
@@ -39,7 +48,11 @@
         <a class="chip" href="#contact" role="button">Buku Tamu</a>
         <button class="theme-toggle btn btn-ghost" aria-pressed="false">Default</button>
       </div>
-      <button id="menuToggle" class="menu-toggle" aria-label="Toggle menu">☰</button>
+      <button id="menuToggle" class="menu-toggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
       <div id="mobileMenu" class="mobile-menu">
         <a href="#about">Tentang</a>
         <a href="#members">Anggota</a>
@@ -495,7 +508,7 @@
         <h2 id="contact-title">Buku Tamu & Kontak</h2>
         <p class="muted">Form ini hanya ilustrasi (tanpa backend). Menampilkan elemen form: <code>&lt;form&gt; &lt;input&gt; &lt;textarea&gt; &lt;button&gt;</code>.</p>
 
-        <form class="contact" id="guestForm" aria-label="Buku Tamu">
+        <form class="contact" id="guestForm" onsubmit="handleGuestForm(event)" aria-label="Buku Tamu">
           <div class="form-row">
             <div class="col"><input type="text" id="name" name="name" placeholder="Nama" required></div>
             <div class="col"><input type="email" id="email" name="email" placeholder="Email" required></div>
@@ -569,9 +582,9 @@
       </div>
     </footer>
 
-  <button id="backToTop">↑</button>
+    <button id="backToTop">↑</button>
 
-
+    <!-- External JavaScript -->
     <script src="script.js"></script>
   </body>
 </html>

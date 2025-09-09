@@ -1,20 +1,6 @@
-// TYPING EFFECT (simple)
-(function typingEffect() {
-  const el = document.getElementById('typing');
-  const phrases = ["We Achieve More", "Learn. Build. Grow.", "Future Engineer"];
-  let p = 0, i = 0, forward = true;
-  function tick() {
-    const full = phrases[p];
-    el.textContent = full.slice(0, i) + (i % 2 ? "" : "");
-    if (forward) { i++; if (i > full.length) { forward = false; setTimeout(tick, 900); return; } }
-    else { i--; if (i < 0) { forward = true; p = (p + 1) % phrases.length; } }
-    setTimeout(tick, forward ? 80 : 30);
-  }
-  tick();
-})();
 
-// === THEME TOGGLE FIX (multi button) ===
-const themeButtons = document.querySelectorAll('.theme-toggle'); // pakai class untuk semua tombol
+// === THEME TOGGLE FIX (multi button) + SAVE TO LOCALSTORAGE ===
+const themeButtons = document.querySelectorAll('.theme-toggle');
 const themes = [
   {
     name: 'Default',
@@ -58,26 +44,48 @@ const themes = [
   }
 ];
 
-let currentTheme = 0;
+// Ambil theme terakhir dari localStorage (kalau ada), default ke 0
+let currentTheme = parseInt(localStorage.getItem('themeIndex')) || 0;
+applyTheme(currentTheme);
+
+function applyTheme(index) {
+  const t = themes[index];
+  document.documentElement.style.setProperty('--bg', t.bg);
+  document.documentElement.style.setProperty('--card', t.card);
+  document.documentElement.style.setProperty('--muted', t.muted);
+  document.documentElement.style.setProperty('--accent1', t.accent1);
+  document.documentElement.style.setProperty('--accent2', t.accent2);
+  document.documentElement.style.setProperty('--accent3', t.accent3);
+  document.documentElement.style.setProperty('--accent4', t.accent4);
+
+  // Update semua tombol agar text konsisten
+  themeButtons.forEach(b => b.textContent = t.name);
+}
 
 themeButtons.forEach(btn => {
   btn.addEventListener('click', () => {
     currentTheme = (currentTheme + 1) % themes.length;
-    const t = themes[currentTheme];
-
-    // Set warna
-    document.documentElement.style.setProperty('--bg', t.bg);
-    document.documentElement.style.setProperty('--card', t.card);
-    document.documentElement.style.setProperty('--muted', t.muted);
-    document.documentElement.style.setProperty('--accent1', t.accent1);
-    document.documentElement.style.setProperty('--accent2', t.accent2);
-    document.documentElement.style.setProperty('--accent3', t.accent3);
-    document.documentElement.style.setProperty('--accent4', t.accent4);
-
-    // Update semua tombol agar text konsisten
-    themeButtons.forEach(b => b.textContent = t.name);
+    localStorage.setItem('themeIndex', currentTheme); // simpan pilihan theme
+    applyTheme(currentTheme);
   });
 });
+
+
+// TYPING EFFECT (simple)
+(function typingEffect() {
+  const el = document.getElementById('typing');
+  const phrases = ["We Achieve More", "Learn. Build. Grow.", "Future Engineer"];
+  let p = 0, i = 0, forward = true;
+  function tick() {
+    const full = phrases[p];
+    el.textContent = full.slice(0, i) + (i % 2 ? "" : "");
+    if (forward) { i++; if (i > full.length) { forward = false; setTimeout(tick, 900); return; } }
+    else { i--; if (i < 0) { forward = true; p = (p + 1) % phrases.length; } }
+    setTimeout(tick, forward ? 80 : 30);
+  }
+  tick();
+})();
+
 
 // SCROLL PROGRESS
 const progress = document.getElementById('progress');
@@ -173,13 +181,30 @@ window.addEventListener("scroll", () => {
 backToTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 
 // Mobile menu toggle
+// Mobile menu toggle (hamburger animasi jadi X)
 const menuToggle = document.getElementById('menuToggle');
 const mobileMenu = document.getElementById('mobileMenu');
 
+function closeMobileMenu() {
+  mobileMenu.classList.remove('active');
+  menuToggle.classList.remove('active');
+  document.body.classList.remove('menu-open');
+}
+
 menuToggle.addEventListener('click', () => {
-  mobileMenu.classList.toggle('active');
-  menuToggle.textContent = mobileMenu.classList.contains('active') ? '✕' : '☰';
+  const isActive = mobileMenu.classList.toggle('active');
+  document.body.classList.toggle('menu-open', isActive);
+  menuToggle.classList.toggle('active', isActive); // animasi garis → X
 });
+
+// Tutup menu otomatis saat klik link
+document.querySelectorAll('#mobileMenu a').forEach(link => {
+  link.addEventListener('click', () => {
+    closeMobileMenu();
+  });
+});
+
+
 
 // Counter animation
 document.addEventListener("DOMContentLoaded", () => {
@@ -238,3 +263,99 @@ document.addEventListener("DOMContentLoaded", () => {
     observer.observe(counter);
   });
 });
+
+const canvas = document.getElementById('particleBackground');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+const particles = [];
+const numParticles = 120; // jumlah partikel
+const glowBlur = 8; // blur untuk glow effect
+
+for (let i = 0; i < numParticles; i++) {
+  particles.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    radius: Math.random() * 1.5 + 0.5, // partikel kecil
+    dx: (Math.random() - 0.5) * 0.3,
+    dy: (Math.random() - 0.5) * 0.3
+  });
+}
+
+// Helper untuk konversi HEX ke RGB
+function hexToRgb(hex) {
+  hex = hex.replace('#', '');
+  if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+  const bigint = parseInt(hex, 16);
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+  return `${r}, ${g}, ${b}`;
+}
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Ambil warna terbaru dari CSS variable
+  let accentColor = getComputedStyle(document.documentElement)
+    .getPropertyValue('--accent1')
+    .trim();
+
+  const rgb = hexToRgb(accentColor);
+  ctx.shadowBlur = glowBlur;
+  ctx.shadowColor = `rgba(${rgb}, 0.6)`; // Glow mengikuti warna partikel
+
+  for (let p of particles) {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${rgb}, 0.6)`; // 60% opacity
+    ctx.fill();
+
+    p.x += p.dx;
+    p.y += p.dy;
+
+    if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+    if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+  }
+
+  requestAnimationFrame(animateParticles);
+}
+
+animateParticles();
+
+
+// Pastikan selalu mulai di atas saat reload
+window.addEventListener("beforeunload", () => {
+  window.scrollTo(0, 0);
+});
+
+window.addEventListener("load", () => {
+  const welcome = document.getElementById('welcomeScreen');
+  const body = document.body;
+
+  // Kunci scroll saat welcome screen aktif
+  body.style.overflow = "hidden";
+
+  const totalAnimation = 4000; // durasi splash (ms)
+
+  setTimeout(() => {
+    // Fade out
+    welcome.classList.add('fade-out');
+
+    // Lepas scroll lock
+    body.style.overflow = "auto";
+
+    // Opsional: sembunyikan elemen welcome
+    setTimeout(() => {
+      welcome.style.display = "none";
+    }, 1200);
+  }, totalAnimation);
+});
+
+

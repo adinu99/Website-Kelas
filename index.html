@@ -4,8 +4,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
     <title>XI TJKT 1 | Profile</title>
-
-
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <!-- External CSS -->
@@ -18,16 +16,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&display=swap" rel="stylesheet">
   </head>
   <body>
+    <!-- Welcome Screen -->
     <div id="welcomeScreen">
       <div class="welcome-bg"></div>
-      <h1 class="welcome-text">Welcome to <span>XI TJKT 1</span></h1>
+      <h1 class="welcome-text">WELCOME TO <span>XI TJKT 1</span></h1>
     </div>
-
-
+    <!-- Effect Particle -->
     <canvas id="particleBackground"></canvas>
     <!-- Scroll Progress -->
     <div id="progress" aria-hidden="true"></div>
     
+
     <!-- NAV -->
     <nav role="navigation" aria-label="Main Navigation">
       <div class="brand">
@@ -71,7 +70,6 @@
       <div class="blob b2" aria-hidden="true"></div>
 
       <div class="hero-inner">
-        <!-- left - main card -->
         <div class="hero-card" aria-labelledby="hero-title">
           <div class="intro-top">
             <div class="kicker">Kegiatan Terbaru</div>
@@ -96,7 +94,6 @@
           </div>
         </div>
 
-        <!-- right - preview mini cards -->
         <aside class="preview" aria-hidden="true">
           <div class="mini-card">
             <img src="img/mini card1.jpeg" alt="kegiatan">
@@ -133,6 +130,7 @@
       </div>
     </header>
     
+
     <!-- MARQUEE SECTION -->
     <div class="marquee">
       <div class="marquee-inner">
@@ -179,12 +177,10 @@
         <div class="about-inner">
           <div class="blob b3" aria-hidden="true"></div>
           
-          <!-- kiri: gambar -->
           <div class="about-img">
           <img src="img/gambar 5.jpg" alt="Foto Kegiatan Kelas">
           </div>
 
-          <!-- kanan: konten -->
           <div class="about-text">
             <h2 id="about-title">Tentang Kelas</h2>
             <p class="desc">
@@ -235,7 +231,6 @@
         <h2 id="members-title">Anggota Kelas</h2>
         <p class="muted">Klik atau hover kartu untuk melihat efek 3D. Contoh penggunaan <code>&lt;img&gt;</code>, <code>&lt;h3&gt;</code>, <code>&lt;p&gt;</code>.</p>
         <div class="members-grid" id="membersGrid" aria-live="polite">
-          <!-- Member cards -->
           <div class="member" data-name="Adelina" tabindex="0">
             <img src="https://picsum.photos/seed/m1/400/300" alt="Foto Adelina">
             <h3>Adelina</h3>
@@ -416,7 +411,9 @@
             <h3>Gustavino</h3>
             <p class="muted">Anggota</p>
           </div>
+        </div>
       </section>
+
       <div class="gradient-line"></div>
 
       <!-- SCHEDULE -->
@@ -507,7 +504,7 @@
       <section id="contact" class="section-blank" aria-labelledby="contact-title">
         <h2 id="contact-title">Buku Tamu & Kontak</h2>
         <p class="muted">Form ini hanya ilustrasi (tanpa backend). Menampilkan elemen form: <code>&lt;form&gt; &lt;input&gt; &lt;textarea&gt; &lt;button&gt;</code>.</p>
-
+        <div id="guestMessage" class="guest-message"></div>
         <form class="contact" id="guestForm" onsubmit="handleGuestForm(event)" aria-label="Buku Tamu">
           <div class="form-row">
             <div class="col"><input type="text" id="name" name="name" placeholder="Nama" required></div>
@@ -523,7 +520,6 @@
           </div>
         </form>
 
-        <!-- show submitted messages (client-side only) -->
         <div id="guestList"></div>
       </section>
     </main>
@@ -532,7 +528,6 @@
     <!-- FOOTER -->
     <footer class="site-footer">
       <div class="footer-container">
-        <!-- Kolom 1 -->
         <div class="footer-column">
           <h4>Menu</h4>
           <ul>
@@ -544,7 +539,6 @@
           </ul>
         </div>
 
-        <!-- Kolom 2 -->
         <div class="footer-column">
           <h4>Proyek</h4>
           <ul>
@@ -553,7 +547,6 @@
           </ul>
         </div>
 
-        <!-- Kolom 3 -->
         <div class="footer-column">
           <h4>Layanan</h4>
           <ul>
@@ -562,7 +555,6 @@
           </ul>
         </div>
 
-        <!-- Kolom 4 -->
         <div class="footer-column">
           <h4>Kontak</h4>
           <ul>
@@ -571,7 +563,7 @@
 
           <h4>Connect</h4>
           <div class="social-links">
-            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.instagram.com/tjkt1_smekensa/?utm_source=ig_web_button_share_sheet"><i class="fab fa-instagram"></i></a>
             <a href="#"><i class="fab fa-tiktok"></i></a>
           </div>
         </div>
@@ -582,8 +574,10 @@
       </div>
     </footer>
 
-    <button id="backToTop">↑</button>
 
+    <!-- Back To Top Button -->
+    <button id="backToTop">↑</button>
+    
     <!-- External JavaScript -->
     <script src="script.js"></script>
   </body>
